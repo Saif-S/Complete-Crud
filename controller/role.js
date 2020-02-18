@@ -66,7 +66,6 @@ function showRole(req, res){
     }
 }
 
-
 // function showRole(req, res){
 //     try{    id = req.params.id;
 //         conn.query('select * from Roles where id = ?', id, (err, result) => {
@@ -78,4 +77,32 @@ function showRole(req, res){
 //     }
 // }
 
-module.exports = {createRole, showRole, showAllRole};
+// function updateRole(req, res){
+//     try{    Role.update({
+//             name: req.body.name
+//         },{
+//             where:{
+//                 id: req.params.id
+//             }
+//         }).then((role) => {
+//             if(!role[0]){
+//                 res.status(404).send({msg: 'No data found'});
+//             } else {
+//                 res.status(200).send({msg: 'Data updated'});
+//             }
+//         });
+//     } catch(error) {
+//         res.status(500).send({Error:error});
+//     }
+// }
+
+function updateRole(req, res){
+    const id = req.params.id
+    const name = req.body.name 
+    conn.query('update Roles set name = ? where id = ?',[name, id], (err, result) => {
+        if(err) throw err
+        res.status(200).send({msg: 'Data updated'});
+    });
+}
+
+module.exports = {createRole, showRole, showAllRole, updateRole};

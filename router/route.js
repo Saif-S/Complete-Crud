@@ -1,13 +1,13 @@
 const express = require('express');
 const app = module.exports = express.Router();
 
-const {showRole, createRole, showAllRole} = require('../controller/role');
-const {createOrganization, showOrganization, showAllOrganization} = require('../controller/organization');
-const {createState, showState, showAllState} = require('../controller/state');
-const {createUser, showUser, showAllUser} = require('../controller/user');
-const {createBill,showAllBill, showBill} = require('../controller/bill');
-const {createBillPayment, showAllBillPayment, showBillPayment} = require('../controller/bill_payment');
-const {addCard, showAllCard, showCard} = require('../controller/card');
+const {showRole, createRole, showAllRole, updateRole} = require('../controller/role');
+const {createOrganization, showOrganization, showAllOrganization, updateOrganization} = require('../controller/organization');
+const {createState, showState, showAllState, updateState} = require('../controller/state');
+const {createUser, showUser, showAllUser, updateUser} = require('../controller/user');
+const {createBill,showAllBill, showBill, updateBill} = require('../controller/bill');
+const {createBillPayment, showAllBillPayment, showBillPayment, updateBillPayment} = require('../controller/bill_payment');
+const {addCard, showAllCard, showCard, updateCard} = require('../controller/card');
 
 
 app.post('/add-role', createRole);
@@ -31,5 +31,12 @@ app.get('/show-bill',showAllBill);
 app.get('/show-bill/:id', showBill);
 app.get('/show-billPayment', showAllBillPayment);
 app.get('/show-billPayment/:id', showBillPayment);
+app.put('/update-billPayment/:id', updateBillPayment);
+app.put('/update-bill/:id', updateBill);
+app.put('/update-card/:id', updateCard);
+app.put('/update-org/:id', updateOrganization);
+app.put('/update-role/:id', updateRole);
+app.put('/update-state/:id', updateState);
+app.put('/update-user/:id', updateUser);
 
 module.exports = app;

@@ -82,4 +82,37 @@ function showState(req, res){
 //     }
 // }
 
-module.exports = {createState, showState, showAllState};
+function updateState(req, res){
+    try {
+        state.update({
+            name: req.body.name
+        },{
+            where: {
+                id: req.params.id
+            }
+        }).then((states) => {
+            if(!states[0]){
+                res.status(404).send({msg: 'Data not found'});
+            } else {
+                res.status(200).send({msg: 'Data updated'});
+            }
+        });
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
+
+// function updateState(req, res){
+//     try {
+//         const id = req.params.id
+//         const name = req.body.name
+//         conn.query('update States set name = ? where id = ?', [name, id], (err, result) => {
+//             if(err) throw err
+//             res.status(200).send({msg: 'Data updated'});
+//         });
+//     } catch (error) {
+//         res.status(500).send({Error: error});
+//     }
+// }
+
+module.exports = {createState, showState, showAllState, updateState};

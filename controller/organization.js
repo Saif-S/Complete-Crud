@@ -77,4 +77,33 @@ function showOrganization(req, res){
     }
 }
 
-module.exports = {createOrganization, showOrganization, showAllOrganization};
+// function updateOrganization(req, res){
+//     try {
+//         org.update({
+//             name: req.body.name
+//         },{
+//             where:{
+//                 id: req.params.id
+//             }
+//         }).then((Org) =>{
+//             if(!Org[0]){
+//                 res.status(404).send({msg: 'No data found'});
+//             } else {
+//                 res.status(200).send({msg: 'Data updated'});
+//             }
+//         });
+//     } catch (error) {
+//         res.status(500).send({Error: error});
+//     }
+// }
+
+function updateOrganization(req, res){
+    const name = req.body.name;
+    const id = req.params.id;
+    conn.query('update Organizations SET name = ? where id = ?', [name,id], (err, result) => {
+        if(err) throw err;
+        res.status(200).send({msg: 'Data Inserted'});
+    });
+}
+
+module.exports = {createOrganization, showOrganization, showAllOrganization, updateOrganization};

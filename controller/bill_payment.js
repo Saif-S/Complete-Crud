@@ -53,23 +53,23 @@ function showAllBillPayment(req, res){
 //     }
 // }
 
-// function showBillPayment(req, res){
-//     try {
-//         bill_pay.findOne({
-//             where: {
-//                 id: req.params.id
-//             }
-//         }).then((bill) => {
-//             if(!bill){
-//                 res.status(404).send({msg: 'No data found'});
-//             } else {
-//                 res.status(200).send({Result:bill});
-//             }
-//         });
-//     } catch (error) {
-//         res.status(500).send({Error: error});
-//     }
-// }
+function showBillPayment(req, res){
+    try {
+        bill_pay.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then((bill) => {
+            if(!bill){
+                res.status(404).send({msg: 'No data found'});
+            } else {
+                res.status(200).send({Result:bill});
+            }
+        });
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
 
 function showBillPayment(req, res){
     try {
@@ -83,4 +83,35 @@ function showBillPayment(req, res){
     }
 }
 
-module.exports = {createBillPayment, showAllBillPayment, showBillPayment}
+function updateBillPayment(req, res){
+    try {
+        bill_pay.update({
+           status: req.body.status,
+           billId: req.body.billId,
+        },{
+           where:{
+                id: req.params.id
+            }
+        }).then((bill) => {
+            if(!bill[0]){
+                res.status(404).send({msg: 'No data found'})
+            } else {
+                res.status(200).send({msg: 'Data Updated'});
+            }
+        })
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
+
+// function updateBillPayment(req, res){
+//     const status = req.body.status;
+//     const billId = req.body.billId;
+//     const id = req.params.id;
+//     conn.query('update bill_Payments set status = ?, billId = ? where id = ?', [status, billId, id], (err, result) => {
+//         if(err) throw err
+//         res.status(200).send({msg: 'Data Updated'});
+//     })
+// }
+
+module.exports = {createBillPayment, showAllBillPayment, showBillPayment, updateBillPayment}
