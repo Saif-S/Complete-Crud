@@ -15,7 +15,7 @@ const Role = model.role;
 //     }
 // }
 
-// function showRole(req, res){
+// function showAllRole(req, res){
     // try{
     //     conn.query('select * from Roles', (err, result) => {
     //         if(err) throw err;
@@ -38,7 +38,7 @@ function createRole(req, res){
     }
 }
 
-function showRole(req, res){
+function showAllRole(req, res){
     try{
         Role.findAll().then(result => {
             res.status(200).send({Result: result});
@@ -48,5 +48,34 @@ function showRole(req, res){
     }
 }
 
+function showRole(req, res){
+    try {
+        Role.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then((r) => {
+            if(!r){
+                res.status(404).send({msg: 'No data found'});
+            } else {
+                res.status(200).send({Result: r});
+            }
+        })
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
 
-module.exports = { createRole, showRole};
+
+// function showRole(req, res){
+//     try{    id = req.params.id;
+//         conn.query('select * from Roles where id = ?', id, (err, result) => {
+//             if(err) throw err;
+//             res.status(200).send({Result: result});
+//         });
+//     } catch(error){
+//         res.status(500).send({Error: error});
+//     }
+// }
+
+module.exports = {createRole, showRole, showAllRole};

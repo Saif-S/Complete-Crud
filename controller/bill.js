@@ -1,6 +1,6 @@
 const conn = require('../database/sqlConnection');
 const model = require('../database/seq.config');
-const bill = model.bill;
+const Bill = model.bill;
 
 // function createBill(req, res){
 //     const amount = req.body.amount;
@@ -20,21 +20,75 @@ const bill = model.bill;
 
 function createBill(req, res){
     try{
-        bill.create({
+        Bill.create({
             amount: req.body.amount,
             initiated_by: req.body.initiated_by,
             approved_by: req.body.approved_by,
             initiated_at: req.body.initiated_at,
             approved_at: req.body.approved_at,
             status: req.body.status,
-            OrganizationId: req.body.orgId,
+            OrganizationId: req.body.OrganizationId,
             StateId: req.body.stateId
         }).then((a) => {
-            return res.status(200).send({msg: 'Data Inserted Seq'});
+            return res.status(200).send({msg: 'Data Inserted'});
         });
     } catch(err){
         res.status(500).send({Error: err});
     }
 }
 
-module.exports = {createBill};
+function showAllBill(req, res){
+    try {
+        Bill.findAll().then((bill) => {
+            if(!bill){
+                res.status(404).send({msg: 'No data found'});
+            } else {
+                res.status(200).send({Result: bill});
+            }
+        })
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
+
+// function showAllBill(req, res){
+//     try {
+//         conn.query('select * from bills', (err, result) => {
+//             if(err) throw err;
+//             res.status(200).send({Result: result});
+//         });
+//     } catch (error) {
+//         res.status(500).send({Error: error});
+//     }
+// }
+
+function showBill(req, res){
+    try { 
+        Bill.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then((bill) => {
+            if(!bill){
+                res.status(404).send({msg: 'No data found'});
+            } else {
+                res.status(200).send({Result: bill});
+            }
+        })
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
+
+// function showBill(req, res){
+//     try{    id = req.params.id;
+//         conn.query('select * from bills where id = ?', id, (err, result) => {
+//             if(err) throw err;
+//             res.status(200).send({Result: result});
+//         });
+//     } catch(error){
+//         res.status(500).send({Error: error});
+//     }
+// }
+
+module.exports = {createBill, showAllBill, showBill};

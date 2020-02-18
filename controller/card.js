@@ -1,6 +1,6 @@
 const conn = require('../database/sqlConnection');
 const model = require('../database/seq.config');
-const card = model.card;
+const Card = model.card;
 
 // function addCard(req, res){
 //     try{
@@ -17,7 +17,7 @@ const card = model.card;
 
 function addCard(req, res){
     try{
-        card.create({
+        Card.create({
             card_no: req.body.card_no,
             OrganizationId: req.body.OrganizationId
         }).then((a) => {
@@ -28,4 +28,59 @@ function addCard(req, res){
     }
 }
 
-module.exports = {addCard}
+function showAllCard(req, res){
+    try {
+        Card.findAll().then((card) => {
+            if(!card){
+                res.status(404).send({msg:'No data found'});
+            } else {
+                res.status(200).send({Result: card});
+            }
+        });
+    } catch (error) {
+        res.status(500).send({Error:error});
+    }
+}
+
+// function showAllCard(req, res){
+//     try {
+//         conn.query('select * from cards', (err, result) => {
+//             if(err) throw err;
+//             res.status(200).send({Result: result});
+//         });
+//     } catch (error) {
+//         res.status(500).send({Errorr: error});
+//     }
+// }
+
+// function showCard(req, res){
+//     try {
+//         Card.findOne({
+//             where: {
+//                 id: req.params.id
+//             }
+//         }).then((card) => {
+//             if(!card){
+//                 res.status(404).send({msg: 'No data found'});
+//             } else {
+//                 res.status(200).send({Result: card});
+//             }
+//         })
+//     } catch (error) {
+//         res.status(500).send({Error: error});
+//     }
+// }
+
+function showCard(req, res){
+    try{    
+        id = req.params.id;
+        conn.query('select * from cards where id = ?', id, (err, result) => {
+            if(err) throw err;
+            res.status(200).send({Result: result});
+        });
+    } catch(error){
+        res.status(500).send({Error: error});
+    }
+}
+
+module.exports = {addCard, showAllCard, showCard}

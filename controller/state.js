@@ -31,7 +31,7 @@ function createState(req, res){
     }
 }
 
-function showState(req, res){
+function showAllState(req, res){
     try{
         state.findAll().then((result) => {
             res.status(200).send({Result: result});
@@ -41,4 +41,45 @@ function showState(req, res){
     }
 }
 
-module.exports = {createState, showState};
+// function showAllState(req, res){
+//     try{
+//         conn.query('select * from States', (err, result) => {
+//             if(err) throw err;
+//             res.status(200).send({Result: result});
+//         })
+//     } catch(err){
+//         res.status(500).send({Error: err});
+//     }
+// }
+
+function showState(req, res){
+    try {
+        state.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then((State) => {
+            if(!State){
+                res.status(404).send({Error: 'No data found'});
+            } else {
+                res.status(200).send({Result: State});
+            }
+        })
+    } catch (error) {
+         res.status(500).send({Error: error});
+    }
+}
+
+// function showState(req, res){
+//     try {
+//         id = req.params.id;
+//         conn.query('select * from States where id = ?', id, (err, result) => {
+//             if(err) throw err;
+//             res.status(200).send({Result: result});
+//         });
+//     } catch (error) {
+//         res.status(500).send({Error: error});
+//     }
+// }
+
+module.exports = {createState, showState, showAllState};

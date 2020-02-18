@@ -40,4 +40,57 @@ function createUser(req, res){
     }
 }
 
-module.exports = {createUser}
+// function showUser(req, res){
+//     try{
+//         id = req.params.id
+//         conn.query('select * from Users where id = ?', id, (err, result) => {
+//             if(err) throw err;
+//             res.status(200).send({Data: result})
+//         });
+//     } catch(err){
+//         res.status(500).send({Error: err});
+//     }
+// }
+
+function showUser(req, res){
+    try{
+       user.findOne({
+           where:{
+               id: req.params.id
+           }
+       }).then((User) => {
+        if(!User){
+            res.status(404).send({Msg: 'User Not Found'});
+        }
+            res.status(200).send({Result: User})
+       });
+    } catch(err){
+        res.status(500).send({Error: err});
+    }
+}
+
+// function showAllUser(req, res){
+//     try{    conn.query('select * from Users',(err, result) => {
+//             if(err) throw err;
+//             res.status(200).send({Result: result});
+//         });
+//     } catch (err){
+//         res.status(500).send({Error: err});
+//     }
+// }
+
+function showAllUser(req, res){
+    try{
+        user.findAll().then((User) => {
+            if(!User){
+                res.satus(404).send({Msg: 'No Data'});
+            } else {
+                res.status(200).send({Result: User});
+            } 
+        })
+    } catch(err) {
+        res.status(500).send({Error: err});
+    }
+}
+
+module.exports = {createUser, showUser, showAllUser}

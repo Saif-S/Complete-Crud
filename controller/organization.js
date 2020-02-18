@@ -14,7 +14,7 @@ const org = model.organization;
 //     }
 // }
 
-// function showOrganization(req, res){
+// function showAllOrganization(req, res){
 //     try{
 //         conn.query('select * from Organizations', (err, result) => {
 //             if(err) throw err;
@@ -37,7 +37,7 @@ function createOrganization(req, res){
     }
 }
 
-function showOrganization(req, res){
+function showAllOrganization(req, res){
     try{
         org.findAll().then((result) => {
             res.status(200).send({Result: result});
@@ -47,4 +47,34 @@ function showOrganization(req, res){
     }
 }
 
-module.exports = {createOrganization, showOrganization};
+// function showOrganization(req, res){
+//     try {
+//         org.findOne({
+//             where: {
+//                 id: req.params.id
+//             }
+//         }).then((Org) => {
+//             if(!Org){
+//                 res.status(404).send({msg: 'No data found'});
+//             } else {
+//                 res.status(200).send({Result: Org});
+//             }
+//         });
+//     } catch (error) {
+        
+//     }
+// }
+
+function showOrganization(req, res){
+    try {
+        id = req.params.id;
+        conn.query('select * from Organizations where id = ?', id, (err, result) => {
+            if(err) throw err;
+            res.status(200).send({Result: result});
+        })
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
+
+module.exports = {createOrganization, showOrganization, showAllOrganization};
