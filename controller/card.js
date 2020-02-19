@@ -120,4 +120,27 @@ function updateCard(req, res){
     }
 }
 
-module.exports = {addCard, showAllCard, showCard, updateCard}
+// function deleteCard(req, res){
+//     id = req.params.id
+//     conn.query('delete from cards where id = ?', id, (err, result) => {
+//         if(err) throw err
+//         res.status(200).send({msg: 'Data deleted'});
+//     });
+// }
+
+function deleteCard(req, res){
+    Card.destroy({
+        where:{
+            id: req.params.id
+        }
+    }).then((result) => {
+        console.log(result);
+        if(!result){
+            res.status(404).send({msg: 'No data found'});
+        } else {
+            res.status(200).send({msg: 'Data deleted'});
+        }
+    })
+}
+
+module.exports = {addCard, showAllCard, showCard, updateCard, deleteCard}

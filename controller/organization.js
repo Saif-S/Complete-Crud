@@ -106,4 +106,26 @@ function updateOrganization(req, res){
     });
 }
 
-module.exports = {createOrganization, showOrganization, showAllOrganization, updateOrganization};
+// function deleteOrganization(req, res){
+//     id = req.params.id
+//     conn.query('delete from Organizations where id = ?', id, (err, result) => {
+//         if(err) throw err
+//         res.status(200).send({msg: 'Data deleted'});
+//     });
+// }
+
+function deleteOrganization(req, res){
+    org.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then((result) => {
+        if(!result){
+            res.status(404).send({msg: 'No data found'});
+        } else {
+            res.status(200).send({msg: 'Data deleted'});
+        }
+    })
+}
+
+module.exports = {createOrganization, showOrganization, showAllOrganization, updateOrganization, deleteOrganization};

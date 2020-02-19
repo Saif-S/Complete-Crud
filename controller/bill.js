@@ -136,4 +136,30 @@ function updateBill(req, res){
 //     });
 // }
 
-module.exports = {createBill, showAllBill, showBill, updateBill};
+// function deleteBill(req, res){
+//     id = req.params.id
+//     conn.query('delete from bills where id = ?', id, (err, result) => {
+//         if(err) throw err
+//         res.status(200).send({msg: 'Data deleted'});
+//     });
+// }
+
+function deleteBill(req, res){
+    try {
+        Bill.destroy({
+            where: {
+                id: req.params.id
+            }
+        }).then((result) => {
+            if(!result){
+                res.status(404).send({msg: 'No data found'});
+            } else {
+                res.status(200).send({msg: 'Data deleted'});
+            }
+        });
+    } catch (error) {
+     res.status(500).send({Error: error});  
+    }
+}
+
+module.exports = {createBill, showAllBill, showBill, updateBill, deleteBill};

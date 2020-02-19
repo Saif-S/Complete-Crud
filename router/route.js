@@ -1,13 +1,13 @@
 const express = require('express');
 const app = module.exports = express.Router();
 
-const {showRole, createRole, showAllRole, updateRole} = require('../controller/role');
-const {createOrganization, showOrganization, showAllOrganization, updateOrganization} = require('../controller/organization');
-const {createState, showState, showAllState, updateState} = require('../controller/state');
-const {createUser, showUser, showAllUser, updateUser} = require('../controller/user');
-const {createBill,showAllBill, showBill, updateBill} = require('../controller/bill');
-const {createBillPayment, showAllBillPayment, showBillPayment, updateBillPayment} = require('../controller/bill_payment');
-const {addCard, showAllCard, showCard, updateCard} = require('../controller/card');
+const {showRole, createRole, showAllRole, updateRole, deleteRole} = require('../controller/role');
+const {createOrganization, showOrganization, showAllOrganization, updateOrganization, deleteOrganization} = require('../controller/organization');
+const {createState, showState, showAllState, updateState, deleteState} = require('../controller/state');
+const {createUser, showUser, showAllUser, updateUser, deleteUser} = require('../controller/user');
+const {createBill,showAllBill, showBill, updateBill, deleteBill} = require('../controller/bill');
+const {createBillPayment, showAllBillPayment, showBillPayment, updateBillPayment, deleteBillPayment} = require('../controller/bill_payment');
+const {addCard, showAllCard, showCard, updateCard, deleteCard} = require('../controller/card');
 
 
 app.post('/add-role', createRole);
@@ -38,5 +38,12 @@ app.put('/update-org/:id', updateOrganization);
 app.put('/update-role/:id', updateRole);
 app.put('/update-state/:id', updateState);
 app.put('/update-user/:id', updateUser);
+app.delete('/delete-billPayment/:id', deleteBillPayment);
+app.delete('/delete-bill/:id', deleteBill);
+app.delete('/delete-card/:id', deleteCard);
+app.delete('/delete-org/:id', deleteOrganization);
+app.delete('/delete-role/:id', deleteRole);
+app.delete('/delete-state/:id', deleteState);
+app.delete('/delete-user/:id', deleteUser);
 
 module.exports = app;

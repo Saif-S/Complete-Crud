@@ -134,4 +134,26 @@ function updateUser(req, res){
     }); 
 }
 
-module.exports = {createUser, showUser, showAllUser, updateUser}
+// function deleteUser(req, res){
+//     id = req.params.id
+//     conn.query('delete from Users where id = ?', id, (err, result) => {
+//         if(err) throw err
+//         res.status(200).send({msg: 'Data deleted'});
+//     });
+// }
+
+function deleteUser(req, res){
+    user.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then((result) => {
+        if(!result){
+            res.status(404).send({msg: 'No data found'});
+        } else {
+            res.status(200).send({msg: 'Data deleted'});
+        }
+    });
+}
+
+module.exports = {createUser, showUser, showAllUser, updateUser, deleteUser}

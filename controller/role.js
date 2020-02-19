@@ -105,4 +105,26 @@ function updateRole(req, res){
     });
 }
 
-module.exports = {createRole, showRole, showAllRole, updateRole};
+// function deleteRole(req, res){
+//     id = req.params.id
+//     conn.query('delete from Roles where id = ?', id, (err, result) => {
+//         if(err) throw err
+//         res.status(200).send({msg: 'Data deleted'});
+//     })
+// }
+
+function deleteRole(req, res){
+    Role.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then((result) =>{
+        if(!result){
+            res.status(404).send({msg: 'Data not found'});
+        } else {
+            res.status(200).send({msg: 'Data deleted'});
+        }
+    })
+}
+
+module.exports = {createRole, showRole, showAllRole, updateRole, deleteRole};
