@@ -19,7 +19,7 @@ function addCard(req, res){
     try{
         Card.create({
             card_no: req.body.card_no,
-            OrganizationId: req.body.OrganizationId
+            OrganizationId: req.orgId
         }).then((a) => {
             res.status(200).send({msg: 'Data Inserted'});
         });
@@ -134,7 +134,6 @@ function deleteCard(req, res){
             id: req.params.id
         }
     }).then((result) => {
-        console.log(result);
         if(!result){
             res.status(404).send({msg: 'No data found'});
         } else {

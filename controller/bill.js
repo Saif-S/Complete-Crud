@@ -2,6 +2,28 @@ const conn = require('../database/sqlConnection');
 const model = require('../database/seq.config');
 const Bill = model.bill;
 
+function approvebill(req, res){
+    try {
+        Bill.update({
+            approved_by: req.userId,
+            approved_at: Date.now(),
+            status: "Approved"
+        }, {
+            where: {
+                id: req.body.id
+            }
+        }).then(result => {
+            if(!result[0]){
+                res.status(404).send({msg: 'No data found'});
+            } else {
+                res.status(200).send({msg: 'Data updated'})
+            }
+        });
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
+
 // function createBill(req, res){
 //     const amount = req.body.amount;
 //     const init_by = req.body.initiated_by;
@@ -22,13 +44,11 @@ function createBill(req, res){
     try{
         Bill.create({
             amount: req.body.amount,
-            initiated_by: req.body.initiated_by,
-            approved_by: req.body.approved_by,
-            initiated_at: req.body.initiated_at,
-            approved_at: req.body.approved_at,
-            status: req.body.status,
-            OrganizationId: req.body.OrganizationId,
-            StateId: req.body.stateId
+            initiated_by: req.userId,
+            initiated_at: Date.now(),
+            status: "Pending",
+            OrganizationId: req.orgId,
+            StateId: req.body.stateId,
         }).then((a) => {
             return res.status(200).send({msg: 'Data Inserted'});
         });
@@ -162,4 +182,28 @@ function deleteBill(req, res){
     }
 }
 
-module.exports = {createBill, showAllBill, showBill, updateBill, deleteBill};
+function billStatus(req,res){
+    const id = req.body.OrganizationId;
+    const status = req.body.status;
+    conn.query("select * from bills where status = ? and Organizationid = ?",[status, id], (err, resut) => {
+        if(err) throw err
+        res.status(200).send({Result: resut});
+    }); 
+}
+
+// function billStatus(req, res){
+//     Bill.findAll({
+//         where: {
+//             id: req.body.OrganizationId,
+//             status: req.body.status
+//         }
+//     }).then((result) => {
+//         if(!result){
+//             res.status(404).send({msg: 'No data found'});
+//         } else {
+//             res.status(200).send({Result: result});
+//         }
+//     })
+// }
+
+module.exports = {createBill, showAllBill, showBill, updateBill, deleteBill, billStatus, approvebill}

@@ -4,10 +4,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER
         },
         initiated_by:{
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
         approved_by:{
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
         initiated_at:{
             type: Sequelize.DATE

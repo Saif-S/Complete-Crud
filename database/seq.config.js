@@ -21,7 +21,8 @@ const models = {
     user: require('../models/User')(sequelize, Sequelize),
     bill: require('../models/bill')(sequelize, Sequelize),
     bill_Payments: require('../models/bill_Payments')(sequelize, Sequelize),
-    card: require('../models/card')(sequelize, Sequelize)
+    card: require('../models/card')(sequelize, Sequelize),
+    register: require('../models/registration')(sequelize, Sequelize)
 };
 
 models.user.belongsTo(models.role,{foreignKey: models.role.id});

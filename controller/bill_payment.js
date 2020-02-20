@@ -130,7 +130,7 @@ function deleteBillPayment(req, res){
             }
         }).then((result) => {
             if(!result){
-                res.status(404).send({msg: 'Data not found'});
+                res.status(404).send({msg: 'No data found'});
             } else {
                 res.status(200).send({msg: 'Data deleted'});
             }

@@ -14,6 +14,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         salt:{
             type: Sequelize.STRING
+        },
+        token: {
+            type: Sequelize.STRING
         }
     },{
         timestamps: false

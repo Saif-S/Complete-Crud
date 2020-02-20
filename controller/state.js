@@ -124,17 +124,21 @@ function updateState(req, res){
 // }
 
 function deleteState(req, res){
-    state.destroy({
-        where: {
-            id: req.params.id
-        }
-    }).then((result) => {
-        if(!result){
-            res.status(404).send({msg: 'no data found'});
-        } else {
-            res.status(200).send({msg: 'data deleted'});
-        }
-    })
+    try {
+        state.destroy({
+            where: {
+                id: req.params.id
+            }
+        }).then((result) => {
+            if(!result){
+                res.status(404).send({msg: 'No data found'});
+            } else {
+                res.status(200).send({msg: 'data deleted'});
+            }
+        });   
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
 }
 
 module.exports = {createState, showState, showAllState, updateState, deleteState};
