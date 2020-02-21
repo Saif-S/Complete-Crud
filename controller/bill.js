@@ -182,28 +182,29 @@ function deleteBill(req, res){
     }
 }
 
-function billStatus(req,res){
-    const id = req.body.OrganizationId;
-    const status = req.body.status;
-    conn.query("select * from bills where status = ? and Organizationid = ?",[status, id], (err, resut) => {
-        if(err) throw err
-        res.status(200).send({Result: resut});
-    }); 
-}
-
-// function billStatus(req, res){
-//     Bill.findAll({
-//         where: {
-//             id: req.body.OrganizationId,
-//             status: req.body.status
-//         }
-//     }).then((result) => {
-//         if(!result){
-//             res.status(404).send({msg: 'No data found'});
-//         } else {
-//             res.status(200).send({Result: result});
-//         }
-//     })
+// function billStatus(req,res){
+//     const id = req.orgId;
+//     const status = req.body.status;
+//     conn.query("select * from bills where status = ? and Organizationid = ?",[status, id], (err, resut) => {
+//         if(err) throw err
+//         res.status(200).send({Result: resut});
+//     }); 
 // }
+
+function billStatus(req, res){
+    Bill.findAll({
+        where: {
+            OrganizationId: req.orgId,
+            status: req.body.status
+        }
+    }).then((result) => {
+        console.log(result)
+        if(!result){
+            res.status(404).send({msg: 'No data found'});
+        } else {
+            res.status(200).send({Result: result});
+        }
+    })
+}
 
 module.exports = {createBill, showAllBill, showBill, updateBill, deleteBill, billStatus, approvebill}

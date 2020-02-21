@@ -1,12 +1,13 @@
 const conn = require('../database/sqlConnection');
 const model = require('../database/seq.config');
 const user = model.user;
+const org = model.organization;
+const role = model.role;
 const jwt  =  require('jsonwebtoken');
 const bcrypt  =  require('bcrypt');
 const secretKey = 'secret123456';
 
 // function createUser(req, res){
-//     // console.log(typeof role);
 //     try{
 //         const firstName = req.body.firstName;
 //         const lastName = req.body.lastName;
@@ -78,6 +79,7 @@ function login(req, res){
                             id: User.id, 
                             email:User.email, 
                             orgId: User.OrganizationId,
+                            roleId: User.RoleId
                         }
                         var token = jwt.sign(data, secretKey, {expiresIn: '1h'});
                         user.update({
@@ -228,4 +230,34 @@ function deleteUser(req, res){
     }
 }
 
-module.exports = {createUser, showUser, showAllUser, updateUser, deleteUser, login}
+// function userJoin(req, res) {
+//     try {
+//         id = req.userId
+//         conn.query('select Users.firstName, Users.lastName, Roles.name as rolename, Organizations.name as orgid from Users join Roles on Users.RoleId = Roles.id join Organizations on Users.OrganizationId = Organizations.id where Users.id = ?', id,
+//         (err, result) => {
+//             if(err) throw err
+//             res.status(200).send({Result: result});
+//         });        
+//     } catch (error) {
+//         res.status(500).send({Error: error});
+//     }
+// }
+
+function userJoin(req, res){
+    try {
+        user.findAll({
+            attributes: ['id', 'firstName', 'lastName'],
+            where: {
+                OrganizationId: req.orgId, 
+                id: req.userId
+            }, include: [{ model:org, attributes: ['name']},
+            { model:role, attributes: ['name'] }]
+        }).then(result => {
+            res.status(200).send({Result: result});
+        });
+    } catch (error) {
+        res.status(500).send({Error: error});
+    }
+}
+
+module.exports = {createUser, showUser, showAllUser, updateUser, deleteUser, login, userJoin}
