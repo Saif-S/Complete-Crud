@@ -56,9 +56,6 @@ function createUser(req, res){
                 });
             }
         });
-
-
-        
     } catch(err){
         return res.staus(500).send({Error: err});
     }
@@ -96,7 +93,7 @@ function login(req, res){
             }
         })
     } catch (error) {
-        
+        res.status(500).send({Error: error});
     }
 }
 
