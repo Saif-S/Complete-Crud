@@ -66,7 +66,7 @@ function showState(req, res){
             }
         })
     } catch (error) {
-         res.status(500).send({Error: error});
+        res.status(500).send({Error: error});
     }
 }
 
@@ -116,11 +116,15 @@ function updateState(req, res){
 // }
 
 // function deleteState(req, res){
-//     id = req.params.id
-//     conn.query('delete from States where id = ?', id, (err, result) => {
-//         if(err) throw err
-//         res.status(200).send({msg: 'Data deleted'});
-//     });
+//     try{    
+//         id = req.params.id
+//         conn.query('delete from States where id = ?', id, (err, result) => {
+//             if(err) throw err
+//             res.status(200).send({msg: 'Data deleted'});
+//         });
+//     } catch(error){
+//         res.status(500).send({Error: error});
+//     }
 // }
 
 function deleteState(req, res){

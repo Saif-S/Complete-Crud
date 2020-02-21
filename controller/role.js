@@ -97,34 +97,46 @@ function showRole(req, res){
 // }
 
 function updateRole(req, res){
-    const id = req.params.id
-    const name = req.body.name 
-    conn.query('update Roles set name = ? where id = ?',[name, id], (err, result) => {
-        if(err) throw err
-        res.status(200).send({msg: 'Data updated'});
-    });
+    try{    
+        const id = req.params.id
+        const name = req.body.name 
+        conn.query('update Roles set name = ? where id = ?',[name, id], (err, result) => {
+            if(err) throw err
+            res.status(200).send({msg: 'Data updated'});
+        });
+    } catch(error){
+        res.status(500).send({Error: error});
+    }
 }
 
 // function deleteRole(req, res){
-//     id = req.params.id
-//     conn.query('delete from Roles where id = ?', id, (err, result) => {
-//         if(err) throw err
-//         res.status(200).send({msg: 'Data deleted'});
-//     })
+//     try{    
+//         id = req.params.id
+//         conn.query('delete from Roles where id = ?', id, (err, result) => {
+//             if(err) throw err
+//             res.status(200).send({msg: 'Data deleted'});
+//         })
+//     } catch(error){
+//         res.status(500).send({Error: error});
+//     }
 // }
 
 function deleteRole(req, res){
-    Role.destroy({
-        where: {
-            id: req.params.id
-        }
-    }).then((result) =>{
-        if(!result){
-            res.status(404).send({msg: 'No data found'});
-        } else {
-            res.status(200).send({msg: 'Data deleted'});
-        }
-    })
+    try{    
+        Role.destroy({
+            where: {
+                id: req.params.id
+            }
+        }).then((result) =>{
+            if(!result){
+                res.status(404).send({msg: 'No data found'});
+            } else {
+                res.status(200).send({msg: 'Data deleted'});
+            }
+        });
+    } catch(error){
+        res.status(500).send({Error: error});
+    }
 }
 
 module.exports = {createRole, showRole, showAllRole, updateRole, deleteRole};

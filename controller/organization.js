@@ -61,7 +61,7 @@ function showAllOrganization(req, res){
 //             }
 //         });
 //     } catch (error) {
-        
+//         res.status(500).send({Error: error});       
 //     }
 // }
 
@@ -98,12 +98,16 @@ function showOrganization(req, res){
 // }
 
 function updateOrganization(req, res){
-    const name = req.body.name;
-    const id = req.params.id;
-    conn.query('update Organizations SET name = ? where id = ?', [name,id], (err, result) => {
-        if(err) throw err;
-        res.status(200).send({msg: 'Data Inserted'});
-    });
+    try{    
+        const name = req.body.name;
+        const id = req.params.id;
+        conn.query('update Organizations SET name = ? where id = ?', [name,id], (err, result) => {
+            if(err) throw err;
+            res.status(200).send({msg: 'Data Inserted'});
+        });
+    } catch (error){
+        res.status(500).send({Error: error});
+    }
 }
 
 // function deleteOrganization(req, res){
@@ -125,7 +129,7 @@ function deleteOrganization(req, res){
         } else {
             res.status(200).send({msg: 'Data deleted'});
         }
-    })
+    });
 }
 
 module.exports = {createOrganization, showOrganization, showAllOrganization, updateOrganization, deleteOrganization};

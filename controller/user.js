@@ -117,7 +117,7 @@ function showUser(req, res){
            }
        }).then((User) => {
         if(!User){
-            res.status(404).send({Msg: 'User Not Found'});
+            res.status(404).send({msg: 'User Not Found'});
         }
             res.status(200).send({Result: User})
        });
@@ -178,20 +178,20 @@ function showAllUser(req, res){
 // }
 
 function updateUser(req, res){
-   try{
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
-    const password = req.body.password;
-    const salt = req.body.salt;
-    const roleId = req.body.roleId;
-    const OrganizationId = req.body.OrganizationId;
-    const id = req.params.id;
-    conn.query('update Users SET firstName = ?, lastName = ?, email = ?, password = ?, salt = ?, RoleId = ?, OrganizationId = ? where id = ?',
-    [firstName, lastName, email, password, salt, roleId, OrganizationId, id], (err, result) => {
-        if(err) throw err
-        res.status(200).send({msg: 'Data updated'});
-    });
+    try{
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const email = req.body.email;
+        const password = req.body.password;
+        const salt = req.body.salt;
+        const roleId = req.body.roleId;
+        const OrganizationId = req.body.OrganizationId;
+        const id = req.params.id;
+        conn.query('update Users SET firstName = ?, lastName = ?, email = ?, password = ?, salt = ?, RoleId = ?, OrganizationId = ? where id = ?',
+        [firstName, lastName, email, password, salt, roleId, OrganizationId, id], (err, result) => {
+            if(err) throw err
+            res.status(200).send({msg: 'Data updated'});
+        });
     } catch(error){
         res.status(500).send({Error: error});
     }
@@ -245,7 +245,7 @@ function userJoin(req, res){
         user.findAll({
             attributes: ['id', 'firstName', 'lastName'],
             where: {
-                OrganizationId: req.orgId, 
+                // OrganizationId: req.orgId, 
                 id: req.userId
             }, include: [{ model:org, attributes: ['name']},
             { model:role, attributes: ['name'] }]

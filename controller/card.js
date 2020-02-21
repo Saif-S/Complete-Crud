@@ -139,7 +139,7 @@ function deleteCard(req, res){
         } else {
             res.status(200).send({msg: 'Data deleted'});
         }
-    })
+    });
 }
 
 module.exports = {addCard, showAllCard, showCard, updateCard, deleteCard}
