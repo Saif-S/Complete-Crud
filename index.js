@@ -10,6 +10,11 @@ seqConfig.sequelize.sync(
     // {force:true}
 );
 
+const port = 3000;
+app.listen(port, () => {
+    console.log(`listening on port ${port}`);
+});
+
 seqConfig.sequelize.authenticate().then(function() {
     console.log('Connection Establised');
 }).catch(function(err) {
@@ -18,10 +23,5 @@ seqConfig.sequelize.authenticate().then(function() {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
-const port = 3000;
-app.listen(port, () => {
-    console.log(`listening on port ${port}`);
-});
 
 app.use(route);

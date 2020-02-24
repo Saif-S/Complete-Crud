@@ -128,7 +128,7 @@ function showUser(req, res){
 
 // function showAllUser(req, res){
 //     try{    
- //       conn.query('select * from Users',(err, result) => {
+//         conn.query('select * from Users',(err, result) => {
 //             if(err) throw err;
 //             res.status(200).send({Result: result});
 //         });
