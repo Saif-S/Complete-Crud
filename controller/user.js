@@ -245,7 +245,6 @@ function userJoin(req, res){
         user.findAll({
             attributes: ['id', 'firstName', 'lastName'],
             where: {
-                // OrganizationId: req.orgId, 
                 id: req.userId
             }, include: [{ model:org, attributes: ['name']},
             { model:role, attributes: ['name'] }]
