@@ -246,7 +246,7 @@ function userJoin(req, res){
             attributes: ['id', 'firstName', 'lastName'],
             where: {
                 id: req.userId
-            }, include: [{ model:org, attributes: ['name']},
+            }, include: [{ model:org, attributes: [['name','orgname'], 'status'], where: {status: req.body.status}},
             { model:role, attributes: ['name'] }]
         }).then(result => {
             res.status(200).send({Result: result});

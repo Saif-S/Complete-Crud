@@ -28,7 +28,8 @@ const org = model.organization;
 function createOrganization(req, res){
     try{
         org.create({
-            name: req.body.name
+            name: req.body.name,
+            status: req.body.status
         }).then((c) => {
             return res.status(200).send({msg: 'Data inserted'});
         })

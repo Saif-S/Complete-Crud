@@ -5,7 +5,7 @@ const {showRole, createRole, showAllRole, updateRole, deleteRole} = require('../
 const {createOrganization, showOrganization, showAllOrganization, updateOrganization, deleteOrganization} = require('../controller/organization');
 const {createState, showState, showAllState, updateState, deleteState} = require('../controller/state');
 const {createUser, showUser, showAllUser, updateUser, deleteUser, login, userJoin} = require('../controller/user');
-const {createBill,showAllBill, showBill, updateBill, deleteBill, billStatus, approvebill} = require('../controller/bill');
+const {createBill,showAllBill, showBill, updateBill, deleteBill, billStatus, approvebill, findOperator} = require('../controller/bill');
 const {createBillPayment, showAllBillPayment, showBillPayment, updateBillPayment, deleteBillPayment} = require('../controller/bill_payment');
 const {addCard, showAllCard, showCard, updateCard, deleteCard} = require('../controller/card');
 const verify = require('../middleware/auth');
@@ -37,6 +37,7 @@ app.get('/show-bill/:id', showBill);
 app.get('/show-billPayment', showAllBillPayment);
 app.get('/show-billPayment/:id', showBillPayment);
 app.get('/show-billstatus',verify, billStatus);
+app.get('/operator', findOperator);
 app.put('/update-billPayment/:id', updateBillPayment);
 app.put('/update-bill/:id', updateBill);
 app.put('/update-card/:id', updateCard);

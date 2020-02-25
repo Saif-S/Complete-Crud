@@ -8,7 +8,7 @@ const Card = model.card;
 //         OrganizationId = req.body.OrganizationId;
 //         conn.query('insert into cards set card_no = ?, OrganizationId = ?', [card_no, OrganizationId], (err, result) => {
 //             if(err) throw err;
-//             res.status(200).send({msg:'Data inserted'})
+//             res.status(200).send({msg:'Data inserted'});
 //         });
 //     } catch(err){
 //         res.status(500).send({Error: err});

@@ -1,5 +1,6 @@
 const conn = require('../database/sqlConnection');
 const model = require('../database/seq.config');
+const Op = require('sequelize');
 const Bill = model.bill;
 
 function approvebill(req, res){
@@ -198,7 +199,6 @@ function billStatus(req, res){
             status: req.body.status
         }
     }).then((result) => {
-        console.log(result)
         if(!result){
             res.status(404).send({msg: 'No data found'});
         } else {
@@ -207,4 +207,28 @@ function billStatus(req, res){
     })
 }
 
-module.exports = {createBill, showAllBill, showBill, updateBill, deleteBill, billStatus, approvebill}
+function findOperator(req, res, next){
+    Bill.findAll({
+        where: Op.and(
+            {OrganizationId: req.body.OrganizationId},
+            {StateId: req.body.StateId}
+        )
+    }).then(bill => {
+        if(!bill[0]){
+            res.status(404).send({msg: 'No data found'});
+        } else {
+            res.status(200).send({Result: bill});
+        }
+    });
+}
+
+// function findOperator(req, res, next){
+//     OrganizationId = req.body.OrganizationId;
+//     StateId = req.body.StateId
+//     conn.query('select * from bills where OrganizationId = ? or StateId = ?', [OrganizationId, StateId], (err, result) => {
+//         if(err) throw err;
+//         res.status(200).send({msg: result});
+//     });
+// }
+
+module.exports = {createBill, showAllBill, showBill, updateBill, deleteBill, billStatus, approvebill, findOperator}
